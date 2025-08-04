@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employees Management Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Enhance Employees Management Dashboard</h1>
+        <div class="header-info">
+          <div class="counter">
+            <i>👥</i>
+            <span id="activeCount">0</span> Active Employees
+          </div>
+          <div class="counter">
+            <i>💰</i>
+            <span id="totalPayroll">0</span> Total Payroll
+          </div>
+          <div class="counter">
+            <i>🗑️</i>
+            <span id="trashCount">0</span> In Trash
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Add New Employee -->
+    <div class="container">
+      <div class="main-content">
+        <div class="form-section">
+          <div class="card">
+            <h2 class="card-title">Add New Employee</h2>
+            <form id="employeeForm">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Enter full name" />
+                <div class="error-message" id="nameError">
+                  required field
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="role">Role</label>
+                <input type="text" id="role" placeholder="Enter job role" />
+                <div class="error-message" id="roleError">
+                  required field
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="salary">Salary (R)</label>
+                <input type="text" id="salary" placeholder="Enter salary" />
+                <div class="error-message" id="salaryError">
+                  Enter valid number (e.g. 50000)
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status">
+                  <option value="">Select Status</option>
+                  <option value="Active">Active</option>
+                  <option value="On Leave">On Leave</option>
+                  <option value="Terminated">Terminated</option>
+                </select>
+                <div class="error-message" id="statusError">
+                  Please select a status
+                </div>
+              </div>
+              <button type="submit" class="btn btn-block">Add Employee</button>
+            </form>
+          </div>
+
+          <!-- Trash Management -->
+          <div class="card">
+            <h2 class="card-title">Trash Management</h2>
+            <p>manage and show deleted employees</p>
+            <button id="toggleTrash" class="btn btn-secondary btn-block">
+              Show Trash
+            </button>
+          </div>
+          
+          <!-- Filter Controls -->
+          <div class="card">
+            <h2 class="card-title">Filter Employees</h2>
+            <div class="form-group">
+              <label for="nameFilter">Name</label>
+              <input type="text" id="nameFilter" placeholder="Search by name">
+            </div>
+            <div class="form-group">
+              <label for="roleFilter">Role</label>
+              <input type="text" id="roleFilter" placeholder="Filter by role">
+            </div>
+            <div class="form-group">
+              <label for="salaryMin">Salary Range (R)</label>
+              <div class="salary-range">
+                <input type="number" id="salaryMin" placeholder="Min">
+                <span>-</span>
+                <input type="number" id="salaryMax" placeholder="Max">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="bonusMin">Bonus Range (R)</label>
+              <div class="salary-range">
+                <input type="number" id="bonusMin" placeholder="Min">
+                <span>-</span>
+                <input type="number" id="bonusMax" placeholder="Max">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="statusFilter">Status</label>
+              <select id="statusFilter">
+                <option value="">All Statuses</option>
+                <option value="Active">Active</option>
+                <option value="On Leave">On Leave</option>
+                <option value="Terminated">Terminated</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <button id="applyFilters" class="btn btn-block">Apply Filters</button>
+              <button id="clearFilters" class="btn btn-secondary btn-block">Clear Filters</button>
+            </div>
+            <div class="form-group">
+              <button id="deleteLowSalary" class="btn btn-danger btn-block">
+                Delete Employees ≤ 20,000 R
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Employees Recorde -->
+        <div class="list-section">
+          <div class="card">
+            <h2 class="card-title">Active Employees</h2>
+            <div class="table-container">
+              <table id="employeeTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Salary</th>
+                    <th>Bonus</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="employeeList">
+                  <tr>
+                    <td colspan="6" class="empty-state">
+                      <div>📋</div>
+                      <h3>No employees found</h3>
+                      <p>Add new employees</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Trash Bin -->
+          <div id="trashSection" class="card">
+            <div class="trash-header">
+              <h2 class="card-title">Trash Bin</h2>
+              <button id="hideTrash" class="btn btn-secondary">
+                Hide Trash
+              </button>
+            </div>
+            <div class="table-container">
+              <table id="trashTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Salary</th>
+                    <th>Bonus</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="trashList">
+                  <tr>
+                    <td colspan="6" class="empty-state">
+                      <div>🗑️</div>
+                      <h3>Trash is empty</h3>
+                      <p>Deleted employees will appear here</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bonus Modal -->
+    <div id="bonusModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Add Bonus</h2>
+        <div class="form-group">
+          <label for="bonusPercentage">Bonus Percentage</label>
+          <input type="number" id="bonusPercentage" placeholder="Enter percentage" min="0" max="100">
+          <div class="error-message" id="bonusError">
+            Please enter a valid percentage (0-100)
+          </div>
+        </div>
+        <button id="applyBonus" class="btn btn-block">Apply Bonus</button>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p id="date">Employee Management System &copy Erfan Almrwani</p>
+      </div>
+    </footer>
+
+    <script src="main.js"></script>
+  </body>
+</html>
